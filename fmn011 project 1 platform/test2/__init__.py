@@ -46,11 +46,11 @@ def task4(L, b, d, a):
 def task5(L, b, d, a):
     startXT = (2.4537, -4.9075, 2.7424)
     # Legs at min length:
-    L = (8, 8, 8, 8, 8, 8)
+    #L = (8, 8, 8, 8, 8, 8)
     #Legs at max length:
     #L = (15, 15, 15, 15, 15, 15)
     # Maximally tilted platform:
-    #L = (15, 15, 8, 8, 8, 8)
+    L = (15, 15, 8, 8, 8, 8)
     # Maximally twisted platform:
     #L = (8, 15, 8, 15, 8, 15)
     P = constructP(L, b, d)
@@ -64,7 +64,6 @@ def task5(L, b, d, a):
     YB = calcBaseY(b, d)
     ZB = np.zeros(6)
     (L1, L2, L3) = calcLegs(XT, YT, ZT, XB, YB, ZB)
-    print(L1, L2, L3)
     plotGraph(XT, YT, ZT, XB, YB, L1, L2, L3)
 
 
