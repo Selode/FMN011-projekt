@@ -46,13 +46,13 @@ def task4(L, b, d, a):
 def task5(L, b, d, a):
     startXT = (2.4537, -4.9075, 2.7424)
     # Legs at min length:
-    #L = (8, 8, 8, 8, 8, 8)
+    L = (8, 8, 8, 8, 8, 8)
     #Legs at max length:
     #L = (15, 15, 15, 15, 15, 15)
     # Maximally tilted platform:
     #L = (15, 15, 8, 8, 8, 8)
     # Maximally twisted platform:
-    L = (15, 15, 8, 15, 8, 8)
+    #L = (8, 15, 8, 15, 8, 15)
     P = constructP(L, b, d)
     H = constructH(L, P)
     XP = XPequations(P, b, d)
@@ -83,7 +83,7 @@ def geval(l, b, d):
 def constructP(L, b, d):
     P = np.zeros(3)
     for i in range(3):
-        P[i] = (1.0 / (2 * b) * (b**2 + L[2 * (i + 1) - 1]**2 - L[i]**2))
+        P[i] = (1.0 / (2 * b) * (b**2 + L[2 * i]**2 - L[2 * (i + 1) - 1]**2))
     return P
 
 
@@ -178,10 +178,10 @@ def plotGraph(XT, YT, ZT, XB, YB, LX, LY, LZ):
     ax = Axes3D(fig)
     top = ax.plot_trisurf(XT, YT, ZT, color= 'blue')
     bottom = ax.plot_trisurf(XB, YB, ZB, color= 'red')
-    for i in range(6):
-        ax.add_collection3d(ax.plot_wireframe(LX[i], LY[i], LZ[i], color = 'black'))
     ax.add_collection3d(top)
     ax.add_collection3d(bottom)
+    for i in range(6):
+        ax.add_collection3d(ax.plot_wireframe(LX[i], LY[i], LZ[i], linewidths = 5, color = 'black'))
 
     plt.show()
     
