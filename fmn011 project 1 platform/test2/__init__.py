@@ -5,45 +5,58 @@ import math
 from random import uniform
 
 
-
 def task1(L, b, d):
     print("task 1:")
     print("minimum leg length: ")
-    print(b/2.0)
+    print(b / 2.0)
     print("Height:")
     geval(L, b, d)
+
 
 def task2(L, b, d, a):
     XT = (2.4537, -4.9075, 2.7424)
     print(XT)
-    print stf(XT, L, b, d, a)
+
+    P = constructP(L, b, d)
+    H = constructH(L, P)
+    XP = XPequations(P, b, d)
+    YP = YPequations(P, b, d)
+
+    data = a, b, d, H, L, P, XP, YP
+    print stf(XT, *data)
     return
 
+
 def task4(L, b, d, a):
+    P = constructP(L, b, d)
+    H = constructH(L, P)
+    XP = XPequations(P, b, d)
+    YP = YPequations(P, b, d)
     XT = (2.4537, -4.9075, 2.7424)
-    print fsolve(stf, XT, (L,b,d,a))
-    
+
+    data = a, b, d, H, L, P, XT, XP, YP
+    print fsolve(stf, *data)
+
+
 def task5(L, b, d, a):
     startXT = (2.4537, -4.9075, 2.7424)
-    #Legs at min length:
+    # Legs at min length:
     L = (8, 8, 8, 8, 8, 8)
-    calculatedXT = (fsolve(stf, startXT, (L,b,d,a)))
-    
-    #Legs at max length:
+    calculatedXT = (fsolve(stf, startXT, (L, b, d, a)))
+
+    # Legs at max length:
     L = (15, 15, 15, 15, 15, 15)
-    calculatedXT = (fsolve(stf, startXT, (L,b,d,a)))
-    
-    #Maximally tilted platform:
+    calculatedXT = (fsolve(stf, startXT, (L, b, d, a)))
+
+    # Maximally tilted platform:
     L = (15, 15, 8, 8, 8, 8)
-    calculatedXT = (fsolve(stf, startXT, (L,b,d,a)))
-    
-    #Maximally twisted platform:
+    calculatedXT = (fsolve(stf, startXT, (L, b, d, a)))
+
+    # Maximally twisted platform:
     L = (8, 15, 8, 15, 8, 15)
-    calculatedXT = (fsolve(stf, startXT, (L,b,d,a)))
-    
-    
-        
-    
+    calculatedXT = (fsolve(stf, startXT, (L, b, d, a)))
+
+
 def geval(l, b, d):
     L = l
     P = constructP(L, b, d)
@@ -54,21 +67,22 @@ def geval(l, b, d):
     print(XPequations(P, b, d))
     print("YP: ")
     print(YPequations(P, b, d))
-    
+
     return
+
 
 def constructP(L, b, d):
     P = np.zeros(3)
     for i in range(3):
-        P[i] = (1.0 / (2 * b) * (b**2 + L[2 * (i+1) - 1]**2 - L[i]**2))
+        P[i] = (1.0 / (2 * b) * (b**2 + L[2 * (i + 1) - 1]**2 - L[i]**2))
     return P
 
-def constructH(L,P):
+
+def constructH(L, P):
     H = np.zeros(3)
     for i in range(3):
-        H[i] = math.sqrt(L[2 * (i+1) - 1]**2 - P[i]**2)
+        H[i] = math.sqrt(L[2 * (i + 1) - 1]**2 - P[i]**2)
     return H
-
 
 
 def XPequations(P, b, d):
@@ -78,6 +92,7 @@ def XPequations(P, b, d):
     XP[2] = - math.sqrt(3) / 6.0 * (b - d - 3 * P[2])
     return XP
 
+
 def YPequations(P, b, d):
     YP = np.zeros(3)
     YP[0] = 0.5 * (d + P[0])
@@ -85,19 +100,18 @@ def YPequations(P, b, d):
     YP[2] = - 1 / 2.0 * (b + d - P[2])
     return YP
 
-def stf(XT, L, b, d, a):
+
+def stf(XT, *data):
     finalXT = np.zeros(3)
-    P = constructP(L, b, d)
-    H = constructH(L, P)
-    XP = XPequations(P, b, d)
-    YP = YPequations(P, b, d)
+    a, b, d, H, L, P, XP, YP = data
     finalXT[0] = a**2 + 2 * XT[0] * XT[1] - 2 * XT[0] * (XP[0] + np.sqrt(3) * (YP[0] - YP[1])) - 2 * XP[1] * XT[1] - ((np.sqrt(3) * XP[0] - YP[0] + YP[1])**2 + (H[0]**2 + H[1]**2) - 4 * XP[0]**2 - XP[1]**2) + 2 * np.sqrt((H[0]**2 - 4 * (XT[0] - XP[0])**2) * (H[1]**2 - (XT[1] - XP[1])**2))
-    finalXT[1] = a**2 - 4 * XT[0] * XT[2] - 2 * XT[0] *  (XP[0] - 3 * XP[2] + np.sqrt(3) * (YP[0] - YP[2])) - 2 * XT[2] * ((-3) * XP[0] + XP[2] + np.sqrt(3) * (YP[0] - YP[2])) - ((np.sqrt(3) * (XP[0] + XP[2]) - YP[0] + YP[2])**2 + (H[0]**2 + H[2]**2) - 4 * XP[0]**2 - 4 * XP[2]**2) + 2 * np.sqrt((H[0]**2 - 4 * (XT[0] - XP[0])**2) * (H[2]**2 - 4 * (XT[2] - XP[2])**2)) 
+    finalXT[1] = a**2 - 4 * XT[0] * XT[2] - 2 * XT[0] * (XP[0] - 3 * XP[2] + np.sqrt(3) * (YP[0] - YP[2])) - 2 * XT[2] * ((-3) * XP[0] + XP[2] + np.sqrt(3) * (YP[0] - YP[2])) - ((np.sqrt(3) * (XP[0] + XP[2]) - YP[0] + YP[2])**2 + (H[0]**2 + H[2]**2) - 4 * XP[0]**2 - 4 * XP[2]**2) + 2 * np.sqrt((H[0]**2 - 4 * (XT[0] - XP[0])**2) * (H[2]**2 - 4 * (XT[2] - XP[2])**2))
     finalXT[2] = a**2 + 2 * XT[1] * XT[2] - 2 * XT[2] * (XP[2] + np.sqrt(3) * (YP[1] - YP[2])) - 2 * XP[1] * XT[1] - ((np.sqrt(3) * XP[2] - YP[1] + YP[2])**2 + (H[1]**2 + H[2]**2) - XP[1]**2 - 4 * XP[2]**2) + 2 * np.sqrt((H[1]**2 - (XT[1] - XP[1])**2) * (H[2]**2 - 4 * (XT[2] - XP[2])**2))
     return finalXT
 
+
 def getXT(XT, L, b, d, a):
-    
+
     return
 
 
@@ -109,6 +123,3 @@ L = (11.5, 11.5, 11.5, 11.5, 11.5, 11.5)
 a = 10
 task2(L, b, d, a)
 task4(L, b, d, a)
-
-
-
