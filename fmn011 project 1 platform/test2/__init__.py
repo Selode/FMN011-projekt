@@ -20,14 +20,15 @@ def task1(L, b, d):
 
 
 def task2(L, b, d, a):
-    XT = (2.4537, -4.9075, 2.7424)
+    XT = (1, 2, 3)
+    print("XT: ")
     print(XT)
     P = constructP(L, b, d)
     H = constructH(L, P)
     XP = XPequations(P, b, d)
     YP = YPequations(P, b, d)
 
-
+    print("stf gave the following values: ")
     print (stf(XT, a, b, d, H, L, P, XP, YP))
     return
 
@@ -50,9 +51,9 @@ def task5(L, b, d, a):
     #Legs at max length:
     #L = (15, 15, 15, 15, 15, 15)
     # Maximally tilted platform:
-    L = (15, 15, 8, 8, 8, 8)
+    #L = (15, 15, 8, 8, 8, 8)
     # Maximally twisted platform:
-    #L = (8, 15, 8, 15, 8, 15)
+    L = (8, 15, 8, 15, 8, 15)
     P = constructP(L, b, d)
     H = constructH(L, P)
     XP = XPequations(P, b, d)
