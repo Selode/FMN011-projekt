@@ -51,9 +51,16 @@ def tasks():
     plt.legend(loc='upper right', ncol=2)
     plt.show()
     
+    print("Temperature at 50 °C")
     print(p.solve(50))
+    
+    print("Depth at 1.7 m")
     print(p(1.7))
+    
+    print("Thermocline depth in metres")
     print(root)
+    
+    print("Heat flux in cal/(m³*s)")
     print(-p(root,1))
     
     
