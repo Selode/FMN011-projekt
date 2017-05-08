@@ -54,6 +54,7 @@ def tasks():
     print(p.solve(50))
     print(p(1.7))
     print(root)
+    print(-p(root,1))
     
     
 tasks()
